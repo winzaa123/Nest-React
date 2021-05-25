@@ -8,9 +8,21 @@ language: generic
 env:
   global:
     - APP_ENV='Travis CI'
+    - DOCKER_COMPOSE_VERSION=1.29.1
+    - FILE_DOCKER=${FILE_DOCKER}
 
 services:
   - docker
+
+before_install:
+  - curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+  - sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+  - sudo apt-get update
+  - sudo apt-get -y -o Dpkg::Options::="--force-confnew" install docker-ce
+  - sudo rm /usr/local/bin/docker-compose
+  - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+  - chmod +x docker-compose
+  - sudo mv docker-compose /usr/local/bin
 
 jobs:
   include:
@@ -19,14 +31,14 @@ jobs:
       env:
         - APP_ID='d023acb5-c8d4-426d-a572-148bfea653b4'
         - ENV='Travis CI'
-        - EXEC_CMD='docker-compose -f docker-compose-test.yml exec app'
+        - EXEC_CMD='docker-compose -f ${FILE_DOCKER} exec app'
       script:
-        - docker-compose -f docker-compose-test.yml build
-        - docker-compose -f docker-compose-test.yml up --detach
+        - docker-compose -f ${FILE_DOCKER} build
+        - docker-compose -f ${FILE_DOCKER} up --detach
         - ${EXEC_CMD} yarn db:sync
         - ${EXEC_CMD} yarn test:e2e
       after_success:
-        - docker-compose -f docker-compose-test.yml up --abort-on-container-exit
-        - docker-compose -f docker-compose-test.yml down
+        - docker-compose -f ${FILE_DOCKER} up --abort-on-container-exit
+        - docker-compose -f ${FILE_DOCKER} down
       after_failure:
-        - docker-compose -f docker-compose-test.yml down
+        - docker-compose -f ${FILE_DOCKER} down
