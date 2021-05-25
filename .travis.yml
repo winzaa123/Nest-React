@@ -35,8 +35,8 @@ jobs:
       script:
         - docker-compose -f ${FILE_DOCKER} build
         - docker-compose -f ${FILE_DOCKER} up --detach
-        - $EXEC_CMD yarn db:sync
-        - $EXEC_CMD yarn test:e2e
+        - ${EXEC_CMD} yarn db:sync
+        - ${EXEC_CMD} yarn test:e2e
       after_success:
         - docker-compose -f ${FILE_DOCKER} up --abort-on-container-exit
         - docker-compose -f ${FILE_DOCKER} down
