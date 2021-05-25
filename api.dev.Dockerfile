@@ -3,7 +3,7 @@ FROM node:14.17.0-alpine
 WORKDIR /mnt/app
 
 # COPY ./api/package.json .
-COPY ./api/package*.json .
+COPY ./api/package*.json ./
 
 # COPY ./api/yarn.lock .
 
