@@ -23,6 +23,9 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin
+  - docker build -t exercise-nest  -f api.dev.Dockerfile .
+  - docker pull postgres:13.3
+
 
 jobs:
   include:
@@ -33,7 +36,7 @@ jobs:
         - ENV='Travis CI'
         - EXEC_CMD='docker-compose -f ${FILE_DOCKER} exec app'
       script:
-        - docker-compose -f ${FILE_DOCKER} build
+        # - docker-compose -f ${FILE_DOCKER} build
         - docker-compose -f ${FILE_DOCKER} up --detach
         - ${EXEC_CMD} yarn db:sync
         - ${EXEC_CMD} yarn test:e2e

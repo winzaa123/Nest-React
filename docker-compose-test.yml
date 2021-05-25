@@ -16,7 +16,7 @@ x-environment: &environment
     POSTGRES_PORT: 5432
 services:
   db:
-    image: postgres:latest
+    image: postgres:13.3
     <<: *environment
     volumes:
       - database1_volume:/var/lib/postgresql/data
