@@ -34,13 +34,12 @@ jobs:
       env:
         - APP_ID='d023acb5-c8d4-426d-a572-148bfea653b4'
         - ENV='Travis CI'
-        - EXEC_CMD='docker-compose -f ${FILE_DOCKER}'
       script:
         # - docker-compose -f ${FILE_DOCKER} build
         # - docker-compose -f ${FILE_DOCKER} up --detach
-        - ${EXEC_CMD} run init
-        - ${EXEC_CMD} run test-unit
-        - ${EXEC_CMD} run test-build
+        - docker-compose -f ${FILE_DOCKER} run init
+        - docker-compose -f ${FILE_DOCKER} run test-unit
+        - docker-compose -f ${FILE_DOCKER} run test-build
       after_success:
         - docker-compose -f ${FILE_DOCKER} down
       after_failure:
