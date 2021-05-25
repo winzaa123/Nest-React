@@ -7,7 +7,7 @@
   "scripts": {
     "db:sync": "ts-node ./seed.ts --type=sync",
     "db:init": "ts-node ./seed.ts --type=init",
-
+    "db:droptable": "ts-node ./seed.ts --type=droptable",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",

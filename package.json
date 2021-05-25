@@ -5,6 +5,7 @@
   "scripts": {
     "db:sync": "yarn --cwd ./api db:sync ",
     "db:init": "yarn --cwd ./api db:init ",
+    "db:droptable": "yarn --cwd ./api db:droptable ",
     "test:e2e": "yarn --cwd ./api test:e2e"
 
   }

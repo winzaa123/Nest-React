@@ -31,9 +31,6 @@ jobs:
   include:
     - stage: build-and-test
       name: Build and Test
-      env:
-        - APP_ID='d023acb5-c8d4-426d-a572-148bfea653b4'
-        - ENV='Travis CI'
       script:
         # - docker-compose -f ${FILE_DOCKER} build
         # - docker-compose -f ${FILE_DOCKER} up --detach
