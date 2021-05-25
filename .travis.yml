@@ -23,7 +23,6 @@ jobs:
       script:
         - docker-compose -f docker-compose-test.yml build
         - docker-compose -f docker-compose-test.yml up --detach
-        - scripts/migrations.sh
         - ${EXEC_CMD} yarn db:sync
         - ${EXEC_CMD} yarn test:e2e
       after_success:
