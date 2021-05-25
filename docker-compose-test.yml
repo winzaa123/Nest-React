@@ -39,5 +39,5 @@ services:
     volumes:
       - ./api:/mnt/app
       - /mnt/app/node_modules/
-    links: 
+    depends_on: 
       - db
