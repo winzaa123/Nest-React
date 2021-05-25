@@ -3,7 +3,7 @@ import React, {useState,useEffect} from 'react'
 import  {getAll as CategorieLists} from "../services/CategorieService";
 
 
-const CategorieSelect = (props) => {
+const CategorieSelect  = (props : any) => {
     const [categories, setCategories] = useState([]);
 
     // const [valueInput, setValue] = useState(value);
@@ -25,7 +25,7 @@ const CategorieSelect = (props) => {
       return (
         <select  {...props}   className="form-control">
               <option value="">Please select</option>
-            {categories.map((categorie) => (
+            {categories.map((categorie : any) => (
               <option key={categorie.id} value={categorie.id}>
                 {categorie.name}
               </option>

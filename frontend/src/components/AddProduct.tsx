@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { FunctionComponent, useState } from "react";
 import  ProductService from "../services/ProductService";
 
 import CategorieSelect from "./CategorieSelect"
 
-const AddProduct = () => {
+const AddProduct :FunctionComponent = () => {
   const initialProductState = {
     id: null,
     name: "",
@@ -12,9 +12,9 @@ const AddProduct = () => {
   };
   const [product, setProduct] = useState(initialProductState);
   const [submitted, setSubmitted] = useState(false);
-  const [categorieId, setCategorieValue] = useState(null)
+  const [categorieId, setCategorieValue] = useState<String | null>(null)
 
-  const handleInputChange = event => {
+  const handleInputChange = (event  : React.ChangeEvent<HTMLInputElement> ) => {
     const { name, value } = event.target;
     setProduct({ ...product, [name]: value });
   };
@@ -22,17 +22,14 @@ const AddProduct = () => {
   const saveProduct = () => {
     var data = {
       name: product.name,
-      price: parseFloat(product.price),
+      price: parseFloat(String(product.price)),
       categorieId
     };
 
     ProductService.create(data)
       .then(response => {
-        setProduct({
-          id: response.data.id,
-          name: response.data.name,
-          price: response.data.price
-        });
+        const {id,name,price,categorieId} = response.data
+        setProduct({id,name,price,categorieId});
         setSubmitted(true);
         console.log(response.data);
       })
@@ -85,8 +82,7 @@ const AddProduct = () => {
           </div>
           <div className="form-group mb-3">
             <label htmlFor="description">Categorie</label>
-            <CategorieSelect onChange={e => {
-                   
+            <CategorieSelect onChange={ (e: React.FormEvent<HTMLInputElement> ) => {
                    setCategorieValue(e.currentTarget.value)
                  }}/>
           </div>

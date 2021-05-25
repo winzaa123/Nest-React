@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { FunctionComponent,useState } from "react";
 import  CategorieService from "../services/CategorieService";
 
 
-const AddProduct = () => {
+const AddProduct :FunctionComponent = () => {
   const initialProductState = {
     id: null,
     name: "",
@@ -10,7 +10,7 @@ const AddProduct = () => {
   const [product, setProduct] = useState(initialProductState);
   const [submitted, setSubmitted] = useState(false);
 
-  const handleInputChange = event => {
+  const handleInputChange = (event : React.ChangeEvent<HTMLInputElement> ) => {
     const { name, value } = event.target;
     setProduct({ ...product, [name]: value });
   };
@@ -18,7 +18,6 @@ const AddProduct = () => {
   const saveProduct = () => {
     var data = {
       name: product.name,
-      price: parseFloat(product.price),
     };
 
     CategorieService.create(data)

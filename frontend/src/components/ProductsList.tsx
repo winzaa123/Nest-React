@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { FunctionComponent, useState, useEffect } from "react";
 import  ProductService from "../services/ProductService";
 import { Link } from "react-router-dom";
 
-const ProductsList = () => {
+const ProductsList : FunctionComponent = () => {
   const [products, setProducts] = useState([]);
   const [currentTutorial, setCurrentTutorial] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(-1);
@@ -29,12 +29,12 @@ const ProductsList = () => {
   };
 
 
-  const setActiveTutorial = (tutorial, index) => {
+  const setActiveTutorial = (tutorial : any, index : number) => {
     setCurrentTutorial(tutorial);
     setCurrentIndex(index);
   };
 
-  const deleteProduct = (id) => {
+  const deleteProduct = (id : string) => {
     ProductService.remove(id)
       .then(response => {
         loadProducts();
@@ -56,7 +56,7 @@ const ProductsList = () => {
 
         <ul className="list-group">
           {products &&
-            products.map((product, index) => (
+            products.map((product :any, index) => (
               <li
                 className={
                   "list-group-item " + (index === currentIndex ? "active" : "")

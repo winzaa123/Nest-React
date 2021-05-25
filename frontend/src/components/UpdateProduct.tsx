@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { FunctionComponent,useState, useEffect } from "react";
+import { RouteComponentProps } from "react-router-dom";
 import  ProductService from "../services/ProductService";
 import CategorieSelect from "./CategorieSelect"
 
-const UpdateProduct = props => {
-
+const UpdateProduct = (props :  RouteComponentProps ) => {
+  
   const initialProductState = {
     id: null,
+    name:"",
     price: 0,
     categorieId:null,
   };
@@ -13,12 +15,12 @@ const UpdateProduct = props => {
   const [currentProduct, setCurrentProduct] = useState(initialProductState);
   const [message, setMessage] = useState("");
 
-  const [categorieId, setCategorieValue] = useState(null)
+  const [categorieId, setCategorieValue] = useState<String | null>(null)
 
   
 
 
-  const getProduct = id => {
+  const getProduct = (id : string) => {
     ProductService.get(id)
       .then(response => {
         setCurrentProduct(response.data);
@@ -30,12 +32,13 @@ const UpdateProduct = props => {
         console.log(e);
       });
   };
-
+  
+  const {id : idParams} : any =   props.match.params
   useEffect(() => {
-    getProduct(props.match.params.id);
-  }, [props.match.params.id]);
+    getProduct(idParams);
+  }, [idParams]);
 
-  const handleInputChange = event => {
+  const handleInputChange = (event : React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setCurrentProduct({ ...currentProduct, [name]: value });
   };
@@ -43,12 +46,12 @@ const UpdateProduct = props => {
 
   const updateProduct = () => {
     var data = {
-      id: parseInt(currentProduct.id),
+      id: parseInt(String(currentProduct.id)),
       name: currentProduct.name,
-      price: parseFloat(currentProduct.price),
+      price: parseFloat(String(currentProduct.price)),
       categorieId
     };
-    ProductService.update(currentProduct.id, data)
+    ProductService.update(String(currentProduct.id), data)
       .then(response => {
         console.log(response.data);
         setMessage("The Product was updated successfully!");
@@ -94,7 +97,7 @@ const UpdateProduct = props => {
               <label>
                 <strong>Categorie:</strong>
               </label>
-                <CategorieSelect  value={categorieId} onChange={e => {
+                <CategorieSelect  value={categorieId} onChange={(e: React.FormEvent<HTMLInputElement>) => {
                    
                   setCategorieValue(e.currentTarget.value)
                 }}/>
