@@ -14,6 +14,23 @@ x-environment: &environment
     POSTGRES_PASSWORD: 1234
     POSTGRES_HOST: db
     POSTGRES_PORT: 5432
+
+x-schematest: &schema-test
+  build:
+    context: ./
+    dockerfile: api.dev.Dockerfile
+  container_name: nest_app
+  image:  exercise-nest:latest
+  working_dir: /mnt/app
+  <<: *environment
+  networks: 
+    - database1_network
+  volumes:
+    - ./api:/mnt/app
+    - /mnt/app/node_modules/
+  depends_on: 
+    - db
+
 services:
   db:
     image: postgres:13.3
@@ -23,55 +40,15 @@ services:
     networks:
       - database1_network
   
-
   init:
-    build:
-      context: ./
-      dockerfile: api.dev.Dockerfile
-    container_name: nest_app
-    image:  exercise-nest:latest
-    working_dir: /mnt/app
-    <<: *environment
-    networks: 
-      - database1_network
-    volumes:
-      - ./api:/mnt/app
-      - /mnt/app/node_modules/
-    depends_on: 
-      - db
+    <<: *schema-test
     command: >
       sh -c 'yarn db:sync'
   test-unit:
-    build:
-      context: ./
-      dockerfile: api.dev.Dockerfile
-    container_name: nest_app
-    image:  exercise-nest:latest
-    working_dir: /mnt/app
-    <<: *environment
-    networks: 
-      - database1_network
-    volumes:
-      - ./api:/mnt/app
-      - /mnt/app/node_modules/
-    depends_on: 
-      - db
+    <<: *schema-test
     command: >
       sh -c 'yarn test:e2e'
   test-build:
-    build:
-      context: ./
-      dockerfile: api.dev.Dockerfile
-    container_name: nest_app
-    image:  exercise-nest:latest
-    working_dir: /mnt/app
-    <<: *environment
-    networks: 
-      - database1_network
-    volumes:
-      - ./api:/mnt/app
-      - /mnt/app/node_modules/
-    depends_on: 
-      - db
+    <<: *schema-test
     command: >
       sh -c 'yarn build' 

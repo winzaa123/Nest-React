@@ -95,7 +95,7 @@ describe('InventoryController (e2e)', () => {
               .set('Content-Type', 'application/json')
               .set('Accept', 'application/json')
             .expect(400);
-            console.log(res)
+            // console.log(res)
         })
 
         it('/product (POST) - categorieId incorrect', async () => {
