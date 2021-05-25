@@ -32,8 +32,6 @@ services:
     image:  exercise-nest:latest
     working_dir: /mnt/app
     <<: *environment
-    ports:
-      - ${DEV_PORT:-4000}:4000
     networks: 
       - database1_network
     volumes:
@@ -51,8 +49,6 @@ services:
     image:  exercise-nest:latest
     working_dir: /mnt/app
     <<: *environment
-    ports:
-      - ${DEV_PORT:-4000}:4000
     networks: 
       - database1_network
     volumes:
@@ -70,8 +66,6 @@ services:
     image:  exercise-nest:latest
     working_dir: /mnt/app
     <<: *environment
-    ports:
-      - ${DEV_PORT:-4000}:4000
     networks: 
       - database1_network
     volumes:
