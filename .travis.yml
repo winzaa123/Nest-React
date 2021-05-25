@@ -1,0 +1,33 @@
+branches:
+  only:
+    - main
+    - /^travis.*$/
+
+language: generic
+
+env:
+  global:
+    - APP_ENV='Travis CI'
+
+services:
+  - docker
+
+jobs:
+  include:
+    - stage: build-and-test
+      name: Build and Test
+      env:
+        - APP_ID='d023acb5-c8d4-426d-a572-148bfea653b4'
+        - ENV='Travis CI'
+        - EXEC_CMD='docker-compose -f docker-compose-test.yml exec app'
+      script:
+        - docker-compose -f docker-compose-test.yml build
+        - docker-compose -f docker-compose-test.yml up --detach
+        - scripts/migrations.sh
+        - ${EXEC_CMD} yarn db:sync
+        - ${EXEC_CMD} yarn test:e2e
+      after_success:
+        - docker-compose -f docker-compose-test.yml up --abort-on-container-exit
+        - docker-compose -f docker-compose-test.yml down
+      after_failure:
+        - docker-compose -f docker-compose-test.yml down

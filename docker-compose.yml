@@ -1,0 +1,27 @@
+version: '3.5'
+
+
+services:
+  api:
+    container_name: exercise_nest_api
+    image:  exercise-nest-api:latest
+    build:
+      context: ./
+      dockerfile: api.prod.Dockerfile
+    # restart: always
+    working_dir: /mnt/app  
+    command: > 
+      sh -c "pm2-runtime start ecosystem.config.js --env production"
+    ports:
+      - ${PORT:-4000}:${PORT:-4000}
+    env_file:
+      - ./.env
+
+  frontend:
+    container_name: exercise_nest_app
+    image:  exercise-nest-app:latest
+    build:
+      context: ./
+      dockerfile: frontend.prod.Dockerfile
+    ports:
+      - 8055:80

@@ -1,0 +1,27 @@
+version: '3.5'
+
+
+services:
+  api_excercise:
+    container_name: exercise_nest
+    image:  exercise-nest:latest
+    build:
+      context: ./
+      dockerfile: api.dev.Dockerfile
+    # restart: always
+    working_dir: /mnt/app  
+    ports:
+      - ${DEV_PORT:-4000}:4000
+    env_file:
+      - ./.env
+    volumes:
+      - ./api:/mnt/app
+      - /mnt/app/node_modules/
+  
+  # frontend_prod:
+  #   image: nginx:stable
+  #   ports:
+  #     - 8055:80
+  #   volumes:
+  #     - ./frontend-nginx/default.conf:/etc/nginx/conf.d/default.conf
+  #     - ./frontend/build:/usr/share/nginx/html

@@ -1,0 +1,11 @@
+{
+  "name": "nest-react-api",
+  "version": "1.0.0",
+  "license": "MIT",
+  "scripts": {
+    "db:sync": "yarn --cwd ./api db:sync ",
+    "db:init": "yarn --cwd ./api db:init ",
+    "test:e2e": "yarn --cwd ./api test:e2e"
+
+  }
+}
