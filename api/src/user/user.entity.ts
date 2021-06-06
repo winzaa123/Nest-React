@@ -1,32 +1,37 @@
 import { PrimaryGeneratedColumn, Column, Entity, OneToMany,ManyToOne,CreateDateColumn,UpdateDateColumn, Index,PrimaryColumn,Unique, Timestamp } from "typeorm";
 
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn({type:'bigint'})
-    id: number;
+    id?: number;
 
 
 
     @Index('email')
     @Column({unique:true})
+    @ApiProperty({ example: "abcca@bar.com", description: 'Email' })
     email: string;
 
     @Index('name')
     @Column({nullable:true})
-    name: string;
+    @ApiProperty({ example: "foobar", description: 'Name' })
+    name?: string;
 
     // @Field({nullable:true})
-    @Column({nullable:true})
+    @Column({nullable:true,select:false})
+    @ApiPropertyOptional({   description: 'secret' })
     password: string;
 
-
-    roles: string[] = [];
+    @ApiPropertyOptional({  example:["addUser"], description: 'user permission slug' })
+    roles?: string[] = [];
 
 
 
   @OneToMany(type => UserSocial, v => v.user, { lazy: true })
-  userSocials: UserSocial[];
+  userSocials?: UserSocial[];
 
 
 }

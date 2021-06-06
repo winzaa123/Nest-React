@@ -9,6 +9,7 @@ import * as Joi from '@hapi/joi';
 
 import { InventoryModule } from './inventory/inventory.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [ConfigModule,
@@ -25,7 +26,8 @@ import { UserModule } from './user/user.module';
   }),
   DatabaseModule,
   InventoryModule,
-  UserModule
+  UserModule,
+  AuthModule
   
   ],
   controllers: [AppController],

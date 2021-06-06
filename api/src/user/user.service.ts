@@ -21,12 +21,15 @@ export default class UserService {
       ) {}
     
       
+      async findOneByEmail(email: string): Promise<User | undefined> {
+        return this.userRepo.findOne({email},{select:["id","email","password"]});
+      }
       
-      getAllProducts() {
+      getAllUsers() {
         return this.userRepo.find({   });
       }
     
-      async getProductById(id: number) {
+      async getUserById(id: number) {
         const product = await this.userRepo.findOne(id, {   });
         if (product) {
           return product;
@@ -34,13 +37,13 @@ export default class UserService {
         throw new DataNotFoundException(id);
       }
     
-      async createProduct(product: any) {
-        const newData = await this.userRepo.create(product)
+      async createUser(user: User) {
+        const newData = await this.userRepo.create(user)
         await this.userRepo.save(newData)
         return newData
       }
     
-      async updateProduct(id: number, product: any) {
+      async updateUser(id: number, product: User) {
         await this.userRepo.update(id, product);
         const updatedData = await this.userRepo.findOne(id);
         if (updatedData) {
@@ -49,7 +52,7 @@ export default class UserService {
         throw new DataNotFoundException(id);
       }
     
-      async deleteProduct(id: number) {
+      async deleteUser(id: number) {
         const deleteData = await this.userRepo.delete(id);
         if (!deleteData.affected) {
           throw new DataNotFoundException(id);
