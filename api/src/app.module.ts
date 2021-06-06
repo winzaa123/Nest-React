@@ -8,6 +8,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 
 import { InventoryModule } from './inventory/inventory.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [ConfigModule,
@@ -23,7 +24,8 @@ import { InventoryModule } from './inventory/inventory.module';
     })
   }),
   DatabaseModule,
-  InventoryModule
+  InventoryModule,
+  UserModule
   
   ],
   controllers: [AppController],

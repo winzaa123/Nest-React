@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
+    "dev:api": "api/node_modules/.bin/nest start --watch",
     "db:sync": "yarn --cwd ./api db:sync ",
     "db:init": "yarn --cwd ./api db:init ",
     "db:droptable": "yarn --cwd ./api db:droptable ",
