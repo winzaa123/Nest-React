@@ -12,3 +12,5 @@
 - `yarn db:droptable` # !!for clear database
 - `yarn db:sync` # for create database
 - `yarn db:init` # for init data
+
+<https://www.codemag.com/Article/2001081/Nest.js-Step-by-Step-Part-3-Users-and-Authentication>

@@ -1,14 +1,18 @@
-import { Controller, Request, Post, UseGuards, Body } from '@nestjs/common';
+import { Controller, Request, Post, UseGuards, Body, Get } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import {LocalAuthGuard} from "./local-auth.guard"
 
 import LoginDto from "./dto/LoginDto"
 import AuthService from "./auth.service"
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from 'src/user/user.entity';
 
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { JwtPayload } from './interfaces/JwtPayload';
 
+import { Roles } from '../common/decorators/roles.decorator';
+import { RolesGuard } from './roles.guard';
 @ApiTags('Authentication')
 @Controller('auth')
 export class AuthController {
@@ -33,4 +37,29 @@ export class AuthController {
        
       return await this.authService.signup(credential)
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('profile')
+    @ApiBearerAuth()
+    getProfile(@Request() req) {
+      console.log( req.user)
+      return this.authService.getUser(req.user.userId)
+    }
+
+    @Get('whoami')
+    @UseGuards(AuthGuard())
+    @ApiBearerAuth()
+    public async testAuth(@Request() req: any): Promise<JwtPayload> {
+      return req.user;
+    }
+
+    @Get('testRole')
+    @UseGuards(AuthGuard(),RolesGuard)
+    @Roles('admin','xxx')
+    @ApiBearerAuth()
+    async create( ) {
+      return "can access"
+    }
+
+    
 }
