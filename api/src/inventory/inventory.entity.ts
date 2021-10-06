@@ -1,9 +1,10 @@
+import { Field, ObjectType } from 'type-graphql';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class ProductCategories {
-   @PrimaryGeneratedColumn({type:'bigint'})
-   id: number;
+  @PrimaryGeneratedColumn({ type: 'bigint' })
+  id: number;
 
   @Column()
   name: string;
@@ -13,19 +14,23 @@ export class ProductCategories {
 
 }
 @Entity()
+@ObjectType()
 export class Product {
-   @PrimaryGeneratedColumn({type:'bigint'})
-   id: number;
+  @Field()
+  @PrimaryGeneratedColumn({ type: 'bigint' })
+  id: number;
 
   @Column()
+  @Field()
   name: string;
 
-  @Column({type:"numeric"})
+  @Column({ type: "numeric" })
+  @Field()
   price: number;
 
-  @ManyToOne(type => ProductCategories, v =>  v.id,{lazy:true})
+  @ManyToOne(type => ProductCategories, v => v.id, { lazy: true })
   categorie: ProductCategories
 
-  @Column({ type: 'bigint',nullable:true })
+  @Column({ type: 'bigint', nullable: true })
   categorieId: number;
 }
