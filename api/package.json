@@ -36,6 +36,7 @@
     "@nestjs/platform-fastify": "^7.6.17",
     "@nestjs/swagger": "^4.8.0",
     "apollo-cache-control": "0.14.0",
+    "apollo-server-express": "2",
     "apollo-server-fastify": "^3.1.1",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.4.0",
